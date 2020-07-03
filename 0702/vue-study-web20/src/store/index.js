@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -9,18 +9,22 @@ export default new Vuex.Store({
   },
   mutations: {
     add(state) {
-      state.counter++
-    }
+      state.counter++;
+    },
   },
   actions: {
     // 参数怎么来的？
     add({ commit }) {
       // 业务逻辑组合或者异步
       setTimeout(() => {
-        commit('add')
+        commit("add");
       }, 1000);
-    }
+    },
   },
-  modules: {
-  }
-})
+  getters: {
+    doubleCounter: (state) => {
+      return state.counter * 2;
+    },
+  },
+  modules: {},
+});
