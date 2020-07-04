@@ -3,19 +3,9 @@ let Vue;
 // 声明Store类
 class Store {
   constructor(options) {
-    this._vm = new Vue({
-      // data中的值都会做响应化处理
-      data: {
-        $$state: options.state,
-      },
-    });
-
     // 保存mutations
     this._mutations = options.mutations;
     this._actions = options.actions;
-
-    this._getters = options.getters;
-    console.log(this._getters);
 
     // 锁死commit,dispatch函数this指向
     const store = this;
@@ -26,17 +16,48 @@ class Store {
     this.dispatch = function boundDispatch(type, payload) {
       dispatch.call(store, type, payload);
     };
+
+    this._getters = options.getters;
+    this._makeLocalGetterCache = {}; // 利用computed做一下缓存
+    console.log(this._getters);
+    let computed = {};
+    // 思路：实现Vuex中的 getter
+    this._wrapperGetters = {}; // 定义存储变量，作为代理对象，拦截get，返回最新函数运行结果
+    if (this._getters && Object.keys(this._getters).length > 0) {
+      Object.keys(this._getters).forEach((getterItem) => {
+        this._wrapperGetters[getterItem] = options.getters[getterItem];
+        Object.defineProperty(this._wrapperGetters, getterItem, {
+          get: () => {
+            return options.getters[getterItem](this._vm._data.$$state);
+          },
+        });
+      });
+    }
+
+    // 如何利用computed做缓存？
+    this._vm = new Vue({
+      // data中的值都会做响应化处理
+      data: {
+        $$state: options.state,
+        computed,
+      },
+    });
+  }
+  // 每次通过$store.getter都会触发该代理
+  get getters() {
+    return this._wrapperGetters;
+  }
+  set getters(value) {
+    console.error("Please do not assign values directly");
   }
 
   // 存取器使之成为只读
   get state() {
     return this._vm._data.$$state;
   }
-
   set state(v) {
     console.error("please use replaceState to reset state");
   }
-
   // commit，修改状态
   commit(type, payload) {
     // 1.获取mutation
@@ -77,6 +98,31 @@ function install(_Vue) {
     },
   });
 }
-
+// function resetStoreVM(store, state) {
+//   store.getters = {};
+//   const wrappedGetters = store.getters;
+//   const computed = {};
+//   forEachValue(wrappedGetters, (fn, key) => {
+//     computed[key] = partial(fn, store);
+//     Object.defineProperty(store.getters, key, {
+//       get: () => store._vm[key],
+//       enumerable: true,
+//     });
+//   });
+//   store._vm = new Vue({
+//     data: {
+//       $$state: state,
+//     },
+//     computed,
+//   });
+// }
+// function forEachValue(obj, fn) {
+//   Object.keys(obj).forEach((key) => fn(obj[key], key));
+// }
+// function partial(fn, arg) {
+//   return function() {
+//     return fn(arg);
+//   };
+// }
 // 导出一个对象，作为Vuex
 export default { Store, install };
