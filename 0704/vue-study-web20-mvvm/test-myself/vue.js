@@ -23,6 +23,9 @@ class KVue {
         get() {
           return this._options.data[key];
         },
+        set(newVal) {
+          this._options.data[key] = newVal;
+        },
       });
     });
   }

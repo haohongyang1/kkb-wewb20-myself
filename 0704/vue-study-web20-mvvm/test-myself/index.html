@@ -8,12 +8,16 @@
   </head>
   <body>
     <div id="app">
-      <!-- <p @click="add">我是一个普通节点</p> -->
-      <p @click="add">{{counter}}</p>
-      <!-- <p k-text="counter"></p>
-      <p k-html="desc"></p> -->
-      <input type="text" k-model="desc" />
+      <!-- <p>我是一个普通节点</p> -->
+      <p>{{counter}}</p>
+      <button @click="add">counter++</button>
+      <p k-text="counter"></p>
+      <!-- <p k-html="desc"></p> -->
+      <!-- <input type="text" k-model="value" />
+      <p>文本框绑定的值是：{{value}}</p> -->
     </div>
+    <script src="./dep.js"></script>
+    <script src="./watcher.js"></script>
 
     <script src="./vue.js"></script>
     <script src="./observe.js"></script>
@@ -24,18 +28,21 @@
         el: "#app",
         data: {
           counter: 1,
-          desc: '<span style="color:red">kvue可还行？</span>',
+          value: "文本框",
+          text: "我是一个文本",
+          desc: '<span style="color:red">冲鸭</span>',
         },
         methods: {
           add() {
             this.counter++;
-            console.log(this.counter);
+            // console.log(this.counter);
           },
         },
       });
-      setInterval(() => {
-        app.counter++;
-      }, 1000);
+      // setInterval(() => {
+      //   app.counter++;
+      //   // console.log(app.counter);
+      // }, 1000);
     </script>
   </body>
 </html>
