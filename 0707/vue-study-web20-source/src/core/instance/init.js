@@ -49,7 +49,7 @@ export function initMixin (Vue: Class<Component>) {
       vm._renderProxy = vm
     }
     // expose real self
-    // 核心初始化逻辑
+    // 核心初始化逻辑-------为什么在init里面执行一遍之后，在index里面又执行一遍
     vm._self = vm
     initLifecycle(vm)  // $parent/$root/$children
     initEvents(vm) // 事件监听
