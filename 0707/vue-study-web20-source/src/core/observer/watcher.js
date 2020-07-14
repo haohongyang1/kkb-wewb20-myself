@@ -128,12 +128,11 @@ export default class Watcher {
   addDep (dep: Dep) {
     const id = dep.id
     if (!this.newDepIds.has(id)) {
-      // 如果没有保存过关系，保存一下
-      // 创建watcher和dep的关系
+      // 创建watcher和dep关系
       this.newDepIds.add(id)
       this.newDeps.push(dep)
       if (!this.depIds.has(id)) {
-        // 反向创建dep和watcher关系
+        // 创建dep和watcher
         dep.addSub(this)
       }
     }
@@ -166,11 +165,13 @@ export default class Watcher {
    */
   update () {
     /* istanbul ignore else */
+    // computed
     if (this.lazy) {
       this.dirty = true
     } else if (this.sync) {
       this.run()
     } else {
+      // 入队
       queueWatcher(this)
     }
   }
@@ -181,6 +182,8 @@ export default class Watcher {
    */
   run () {
     if (this.active) {
+      // 执行get方法，如果当前watcher是render watcher
+      // 此get会是updateComponent()
       const value = this.get()
       if (
         value !== this.value ||

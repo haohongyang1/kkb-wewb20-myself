@@ -5,12 +5,9 @@
 
 import { def } from '../util/index'
 
-// 获取数组原型
 const arrayProto = Array.prototype
-// 复制一份
 export const arrayMethods = Object.create(arrayProto)
 
-// 7个需要覆盖的方法
 const methodsToPatch = [
   'push',
   'pop',
@@ -26,16 +23,14 @@ const methodsToPatch = [
  */
 methodsToPatch.forEach(function (method) {
   // cache original method
-  // 缓存原始方法
   const original = arrayProto[method]
   def(arrayMethods, method, function mutator (...args) {
-    // 执行原始方法
+    // 数组方法的默认行为
     const result = original.apply(this, args)
 
-    // 扩展行为：通知更新
+    // 变更通知：获取小管家
     const ob = this.__ob__
-
-    // 有三个操作是新元素加入
+    // 插入操作：会导致新元素进入，他们需要社会主义教育
     let inserted
     switch (method) {
       case 'push':
@@ -46,7 +41,6 @@ methodsToPatch.forEach(function (method) {
         inserted = args.slice(2)
         break
     }
-    // 新加入元素需要执行响应式处理
     if (inserted) ob.observeArray(inserted)
     // notify change
     // 小管家通知更新

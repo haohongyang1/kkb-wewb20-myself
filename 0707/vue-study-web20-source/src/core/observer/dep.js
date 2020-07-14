@@ -30,7 +30,6 @@ export default class Dep {
 
   depend () {
     if (Dep.target) {
-      // 实际执行的是watcher的addDep()
       Dep.target.addDep(this)
     }
   }
@@ -44,6 +43,7 @@ export default class Dep {
       // order
       subs.sort((a, b) => a.id - b.id)
     }
+    // subs存放watchers
     for (let i = 0, l = subs.length; i < l; i++) {
       subs[i].update()
     }
