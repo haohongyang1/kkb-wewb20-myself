@@ -44,6 +44,10 @@ https://github.com/su37josephxia/smarty-press
 
 https://github.com/su37josephxia/vue-template
 
+### TS 装饰器
+
+https://juejin.im/post/6844904164045094926
+
 ### 其他
 
 https://www.cpolar.com/
