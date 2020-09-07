@@ -24,7 +24,7 @@ function decorate(target, property, descriptor) {
   };
   return descriptor;
 }
-// 注解模式实现：仿真语法实现：把输入的，使用
+// 注解模式实现：仿真语法实现，即不能实现@这种语法解析，但是可以把原理解释清楚
 const anotation = (target, property, decorate) => {
   const decriptor = decorate(
     target.prototype,
