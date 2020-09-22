@@ -52,6 +52,18 @@ https://juejin.im/post/6844904164045094926
 
 https://www.processon.com/view/link/5e70b1c2e4b011fcce9b89b5#map
 
+### NG 中如何配置 gzip
+
+https://www.cnblogs.com/Renyi-Fan/p/11047490.html
+
+### Node 中启用 Gzip 压缩
+
+https://www.jianshu.com/p/1c9909f9b0e9
+
+### 试验 Docer
+
+https://github.com/su37josephxia/docker_ci
+
 ### 其他
 
 https://www.cpolar.com/
