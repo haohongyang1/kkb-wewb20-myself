@@ -7,9 +7,9 @@ import {
   StyleSheet,
   Switch,
 } from "react-native";
-console.log("暗号：明确状态归属，合理切分组件");
 const { width, height } = Dimensions.get("window");
 const cellWidth = width * 0.3;
+console.log("暗号：明确状态归属，合理切分组件");
 export default function App() {
   const [isSingle, setIsSingle] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState(-1);
@@ -32,7 +32,7 @@ export default function App() {
                   onPress={() => setSelectedIndex(i)}
                   style={[
                     styles.cell,
-                    selectedIndex === i && { backgroundColor: "green" },
+                    selectedIndex === i && { backgroundColor: "red" },
                   ]}
                 />
               );
@@ -50,7 +50,7 @@ function Cell() {
   return (
     <TouchableOpacity
       onPress={() => setSelected(!selected)}
-      style={[styles.cell, selected && { backgroundColor: "green" }]}
+      style={[styles.cell, selected && { backgroundColor: "red" }]}
     />
   );
 }
