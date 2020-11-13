@@ -119,4 +119,4 @@ console.log(linkNode.print());
 linkNode.removeAt(2);
 
 console.log(linkNode.print());
-// LC 203 链表 206 链表反转
+// LC 203 链表 206 链表反转 141 环状链表 141 环状链表
