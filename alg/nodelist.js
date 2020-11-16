@@ -1,41 +1,4 @@
 /**
- * @param {string} s
- * @return {boolean}
- */
-var isValid = function (s) {
-  // 经典栈操作
-  let map = {
-    ")": "(",
-    "}": "{",
-    "]": "[",
-  };
-  let stack = [];
-  let arr = s.split("");
-  for (let i = 0; i < arr.length; i++) {
-    console.log(11);
-    // 是前括号就入栈
-    console.log(map[arr[i]]);
-    console.log(stack[stack.length - 1]);
-    if (arr[i] === "(" || arr[i] === "{" || arr[i] === "[") {
-      stack.push(arr[i]);
-    }
-
-    // 判断后括号和栈顶是否是一对，如果是一对就pop
-    else if (map[arr[i]] === stack[stack.length - 1]) {
-      stack.pop();
-    } else {
-      stack.push(-1);
-    }
-  }
-  if (stack.length === 0) {
-    return true;
-  } else {
-    return false;
-  }
-};
-// console.log(isValid("]"));
-
-/**
  * 模拟链表操作
  *
  */
@@ -196,13 +159,70 @@ class NodeList {
     }
     return ret.join("->");
   }
+  // 链表反转 TODO 如何在反转的情况下，不改变原来的链表
+  revert() {
+    let pre = null; // 上一个元素，每次循环时候需要更新该值
+    let cur = this.head; // 当前循环元素，每次循环末尾需要更新为cur.next
+    while (cur) {
+      console.log("pre---", JSON.stringify(pre));
+      console.log("cur---", JSON.stringify(cur));
+      // 方法1
+      [cur.next, pre, cur] = [pre, cur, cur.next]; // 上一个元素给cur.next（真正执行反转的位置），更新上一个元素，更新当前元素
+      // 方法2
+      // let tmp = cur.next; // 临时存储当前指针后续内容
+      // cur.next = pre; // 反转
+      // pre = cur; // 接受反转结果
+      // cur = tmp; // 接回临时存储后续内容
+
+      // pre.next = cur;
+      // cur = cur.next;
+    }
+    console.log("prev--", JSON.stringify(pre));
+    return pre;
+  }
+  // 是否是环形链表
+  hasCycle() {
+    // 方法1 流氓式遍历
+    // let count = 1;
+    // while (this.head) {
+    //   if (count > 10000) {
+    //     return true;
+    //   }
+    //   count += 1;
+    //   this.head = head.next;
+    // }
+    // return false;
+    // 方法2
+    // let cache = new Set(); // 记录
+    // while (head) {
+    //   if (cache.has(head)) {
+    //     return true;
+    //   } else {
+    //     cache.add(head);
+    //   }
+    //   head = head.next;
+    // }
+    // return false;
+    // 方法3 操场跑圈，只要是个圈，就一定会有跑的快的追上跑的慢的，所以可以用快慢指针来解题
+    let slow = this.head;
+    let fast = this.head;
+    while (fast && fast.next) {
+      fast = fast.next.next;
+      slow = slow.next;
+      if (fast === slow) {
+        return true;
+      }
+    }
+    return false;
+  }
 }
-var removeElements = function (head, val) {
-  let headArr = head.split("->");
-  let nodeList = new NodeList();
-  nodeList.init(head);
-  nodeList.removeNode(val);
-  console.log("nodeList--", JSON.stringify(nodeList));
-  return nodeList.print();
-};
-removeElements("1->2->6->3->4->5->6", 6);
+// var removeElements = function (head, val) {
+//   let nodeList = new NodeList();
+//   nodeList.init(head);
+//   nodeList.removeNode(val);
+//   console.log("revert--", JSON.stringify(nodeList.revert()));
+//   console.log("nodeList--", JSON.stringify(nodeList));
+//   return nodeList.print();
+// };
+
+// removeElements("1->2->6->3->4->5->6", 6);
